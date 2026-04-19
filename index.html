@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PremRides — Premium Custom Scooters in Canggu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --gold: #D0D0D0;
+      --gold-light: #F0F0F0;
+      --bg: #080808;
+      --bg2: #101010;
+      --bg3: #161616;
+      --card: #121212;
+      --border: rgba(200,200,200,0.2);
+      --text: #f0f0f0;
+      --muted: #888;
+      --white: #ffffff;
+      --radius: 16px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ---- SCROLLBAR ---- */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 20px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(20px);
+      padding: 14px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 14px;
+      font-weight: 500; letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold);
+      color: #000 !important;
+      padding: 10px 24px !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      color: #000 !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; color: #000 !important; }
+    .hamburger { display: none; cursor: pointer; color: var(--white); font-size: 24px; }
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;
+      background: var(--bg); flex-direction: column; align-items: center;
+      justify-content: center; gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--white); text-decoration: none; font-size: 24px; font-weight: 600;
+    }
+    .mobile-menu .close-btn {
+      position: absolute; top: 24px; right: 32px; font-size: 28px; cursor: pointer;
+    }
+
+    /* ---- HERO ---- */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #080808 0%, #0e0e1a 50%, #080808 100%);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+      padding: 120px 24px 60px;
+    }
+    .hero-bg-glow {
+      position: absolute;
+      width: 800px; height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,200,200,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(200,200,200,0.1);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 13px; font-weight: 500; color: var(--gold);
+      margin-bottom: 28px;
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 8vw, 88px);
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .hero-title .highlight { color: var(--gold); }
+    .hero-subtitle {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 600px; margin: 0 auto 40px;
+      line-height: 1.7; font-weight: 300;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold);
+      color: #000; border: none; padding: 16px 40px;
+      border-radius: 50px; font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: all 0.3s; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(200,200,200,0.3); }
+    .btn-secondary {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 16px 40px; border-radius: 50px; font-size: 16px;
+      font-weight: 500; cursor: pointer; transition: all 0.3s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-stats {
+      display: flex; gap: 48px; justify-content: center;
+      margin-top: 64px; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 36px; font-weight: 800; color: var(--gold); }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .scroll-indicator {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--muted); font-size: 12px; letter-spacing: 2px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ---- SECTION SHARED ---- */
+    section { padding: 100px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      display: inline-block;
+      font-size: 12px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      color: var(--white); margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .section-sub {
+      font-size: 18px; color: var(--muted); max-width: 600px;
+      line-height: 1.7; font-weight: 300;
+    }
+    .divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 20px 0 40px;
+    }
+
+    /* ---- FEATURES ---- */
+    #features { background: var(--bg2); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px; margin-top: 60px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-6px); border-color: var(--gold); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 56px; height: 56px;
+      background: rgba(200,200,200,0.1);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .feature-title { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+    .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ---- FLEET ---- */
+    #fleet { background: var(--bg); }
+    .fleet-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 32px; margin-top: 60px;
+    }
+    .fleet-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden; transition: all 0.4s;
+      position: relative;
+    }
+    .fleet-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(200,200,200,0.15); }
+    .fleet-image {
+      height: 300px;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fleet-image.nmax { background: linear-gradient(160deg, #0d1117 0%, #1a1f35 60%, #0d1117 100%); }
+    .fleet-image.xmax { background: linear-gradient(160deg, #0d0d0d 0%, #1a1015 60%, #0d0d0d 100%); }
+    .fleet-image img {
+      width: 100%; height: 100%;
+      object-fit: contain; padding: 24px;
+      transition: transform 0.5s ease;
+      filter: drop-shadow(0 12px 32px rgba(0,0,0,0.7));
+    }
+    .fleet-card:hover .fleet-image img { transform: scale(1.04) translateY(-4px); }
+    .fleet-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--gold); color: #000;
+      padding: 6px 16px; border-radius: 50px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1px;
+      z-index: 2;
+    }
+    .fleet-image-gradient {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+      background: linear-gradient(transparent, var(--card));
+      pointer-events: none; z-index: 1;
+    }
+
+    /* ---- BUILD VARIANTS ---- */
+    .build-variants { margin-bottom: 28px; }
+    .build-variants-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--muted); margin-bottom: 12px;
+    }
+    .build-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .build-tab {
+      padding: 6px 14px; border-radius: 8px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted); transition: all 0.2s;
+    }
+    .build-tab:hover { border-color: var(--gold); color: var(--text); }
+    .build-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+    /* ---- MODIFICATIONS SHOWCASE ---- */
+    #modifications { background: var(--bg); }
+    .mods-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 60px;
+    }
+    .mod-pkg-card {
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border2);
+      transition: all 0.3s; cursor: pointer;
+      position: relative;
+    }
+    .mod-pkg-card:hover { transform: translateY(-6px); border-color: var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .mod-pkg-card.featured { border-color: var(--border); }
+    .mod-pkg-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: #000;
+      font-size: 10px; font-weight: 800; letter-spacing: 2px;
+      padding: 4px 14px; border-radius: 50px; z-index: 3;
+    }
+    .mod-pkg-visual {
+      height: 200px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .mod-pkg-visual img {
+      width: 100%; height: 100%; object-fit: contain; padding: 16px;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.8));
+      transition: transform 0.4s ease;
+    }
+    .mod-pkg-card:hover .mod-pkg-visual img { transform: scale(1.06); }
+    .mod-pkg-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      pointer-events: none;
+    }
+    .mod-pkg-body { padding: 24px; background: var(--card); }
+    .mod-pkg-series { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+    .mod-pkg-name { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--white); margin-bottom: 8px; }
+    .mod-pkg-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+    .mod-pkg-items {
+      display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px;
+    }
+    .mod-pkg-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+    .mod-pkg-item i { color: var(--gold); font-size: 11px; width: 14px; }
+    .mod-pkg-price { display: flex; align-items: baseline; gap: 6px; }
+    .mod-pkg-amount { font-size: 24px; font-weight: 800; color: var(--gold); }
+    .mod-pkg-per { font-size: 13px; color: var(--muted); }
+    .fleet-info { padding: 32px; }
+    .fleet-model {
+      font-size: 13px; color: var(--gold); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .fleet-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; color: var(--white); margin-bottom: 12px;
+    }
+    .fleet-desc { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+    .fleet-specs {
+      display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 28px;
+    }
+    .spec {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--muted);
+    }
+    .spec i { color: var(--gold); }
+    .fleet-price {
+      display: flex; align-items: baseline; gap: 6px; margin-bottom: 20px;
+    }
+    .price-amount {
+      font-size: 38px; font-weight: 800; color: var(--gold);
+    }
+    .price-per { font-size: 15px; color: var(--muted); }
+    .foil-colors {
+      display: flex; gap: 8px; margin-bottom: 28px; align-items: center;
+    }
+    .foil-label { font-size: 13px; color: var(--muted); margin-right: 4px; }
+    .color-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      cursor: pointer; transition: transform 0.2s;
+    }
+    .color-dot:hover { transform: scale(1.3); }
+
+    /* ---- INSURANCE ---- */
+    #insurance { background: var(--bg3); }
+    .insurance-intro { max-width: 700px; margin-bottom: 56px; }
+    .insurance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .ins-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      padding: 32px 28px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      display: flex; flex-direction: column;
+    }
+    .ins-card:hover { transform: translateY(-6px); border-color: var(--gold); }
+    .ins-card.selected {
+      border-color: var(--gold);
+      background: rgba(200,200,200,0.07);
+      box-shadow: 0 0 0 3px rgba(200,200,200,0.2);
+    }
+    .ins-card.popular::before {
+      content: 'MOST POPULAR';
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: #000;
+      font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+      padding: 5px 16px; border-radius: 50px;
+    }
+    .ins-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 4px 12px;
+      border-radius: 50px; margin-bottom: 16px;
+    }
+    .ins-badge.free { background: rgba(68,221,136,0.15); color: #44dd88; }
+    .ins-badge.std  { background: rgba(100,149,237,0.15); color: #6495ed; }
+    .ins-badge.prem { background: rgba(200,200,200,0.15); color: var(--gold); }
+    .ins-badge.zero { background: rgba(255,100,100,0.15); color: #ff6464; }
+    .ins-name { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+    .ins-tagline { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .ins-price-row {
+      display: flex; align-items: baseline; gap: 6px;
+      margin-bottom: 6px;
+    }
+    .ins-price-day { font-size: 32px; font-weight: 800; color: var(--gold); }
+    .ins-price-day.free-tag { font-size: 22px; color: #44dd88; }
+    .ins-per { font-size: 14px; color: var(--muted); }
+    .ins-price-month {
+      font-size: 13px; color: var(--muted); margin-bottom: 24px;
+    }
+    .ins-price-month span { color: var(--text); font-weight: 600; }
+    .ins-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
+    .ins-detail-row {
+      display: flex; justify-content: space-between;
+      font-size: 13px; margin-bottom: 10px; align-items: center;
+    }
+    .ins-detail-label { color: var(--muted); }
+    .ins-detail-val { color: var(--white); font-weight: 600; text-align: right; max-width: 55%; }
+    .ins-detail-val.red { color: #ff6464; }
+    .ins-detail-val.green { color: #44dd88; }
+    .ins-detail-val.gold { color: var(--gold); }
+    .ins-features { margin-top: 20px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+    .ins-feat {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--muted);
+    }
+    .ins-feat i { margin-top: 2px; flex-shrink: 0; }
+    .ins-feat i.yes { color: #44dd88; }
+    .ins-feat i.no  { color: rgba(255,255,255,0.15); }
+    .ins-feat i.partial { color: var(--gold); }
+    .ins-feat span { line-height: 1.4; }
+    .ins-select-btn {
+      margin-top: 24px; width: 100%;
+      background: rgba(200,200,200,0.1);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px;
+      color: var(--gold); font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .ins-select-btn:hover, .ins-card.selected .ins-select-btn {
+      background: var(--gold); color: #000;
+    }
+    .ins-note {
+      margin-top: 40px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 24px 28px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .ins-note i { color: var(--gold); font-size: 20px; margin-top: 2px; flex-shrink: 0; }
+    .ins-note p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .ins-note strong { color: var(--text); }
+
+    /* ---- CONFIGURATOR ---- */
+    .config-section {
+      margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: none;
+    }
+    .config-section.visible { display: block; }
+    .config-label-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px;
+    }
+    .config-label-row span {
+      font-size: 13px; font-weight: 700; color: var(--white);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .config-label-row small { font-size: 12px; color: var(--muted); }
+    .mods-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; margin-bottom: 16px;
+    }
+    .mod-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 12px 14px;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: flex-start; gap: 10px;
+      user-select: none;
+    }
+    .mod-item:hover { border-color: rgba(200,200,200,0.4); }
+    .mod-item.checked {
+      background: rgba(200,200,200,0.08);
+      border-color: var(--gold);
+    }
+    .mod-checkbox {
+      width: 18px; height: 18px; min-width: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 5px; display: flex; align-items: center;
+      justify-content: center; transition: all 0.2s; margin-top: 1px;
+    }
+    .mod-item.checked .mod-checkbox {
+      background: var(--gold); border-color: var(--gold);
+    }
+    .mod-checkbox i { font-size: 10px; color: #000; display: none; }
+    .mod-item.checked .mod-checkbox i { display: block; }
+    .mod-info { flex: 1; }
+    .mod-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+    .mod-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+    .mod-price { font-size: 12px; font-weight: 700; color: var(--gold); margin-top: 4px; }
+    .config-total {
+      background: rgba(200,200,200,0.07);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .config-total-label { font-size: 13px; color: var(--muted); }
+    .config-total-price { font-size: 18px; font-weight: 800; color: var(--gold); }
+
+    /* ---- BOOKING ---- */
+    #booking { background: var(--bg2); }
+    .booking-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      margin-top: 60px; align-items: start;
+    }
+    .booking-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; color: var(--white); margin-bottom: 16px;
+    }
+    .booking-info p { color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+    .booking-steps { display: flex; flex-direction: column; gap: 20px; }
+    .step {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .step-num {
+      width: 36px; height: 36px; min-width: 36px;
+      background: rgba(200,200,200,0.1);
+      border: 1px solid var(--gold);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; font-weight: 700; color: var(--gold);
+    }
+    .step-text h4 { color: var(--white); font-size: 15px; margin-bottom: 4px; }
+    .step-text p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .booking-form {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+    }
+    .form-title { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 28px; }
+    .form-group { margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--muted); margin-bottom: 8px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    input, select, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: var(--white); font-family: 'Inter', sans-serif;
+      font-size: 15px; outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      background: rgba(200,200,200,0.05);
+    }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2); }
+    select option { background: #1a1a1a; }
+    textarea { resize: vertical; min-height: 80px; }
+    .form-submit {
+      width: 100%; background: var(--gold); color: #000;
+      border: none; padding: 18px;
+      border-radius: 12px; font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 8px;
+    }
+    .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* ---- PAYMENT ---- */
+    #payment { background: var(--bg); }
+    .payment-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px; margin-top: 60px;
+    }
+    .payment-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center; transition: all 0.3s;
+    }
+    .payment-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .payment-icon { font-size: 36px; margin-bottom: 12px; }
+    .payment-name { font-size: 14px; font-weight: 600; color: var(--white); }
+    .payment-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .crypto-section {
+      margin-top: 48px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+    }
+    .crypto-title { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .crypto-sub { color: var(--muted); margin-bottom: 32px; }
+    .crypto-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+    }
+    .crypto-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 20px 16px;
+      text-align: center; transition: all 0.3s;
+    }
+    .crypto-item:hover { border-color: var(--gold); }
+    .crypto-symbol { font-size: 28px; margin-bottom: 8px; }
+    .crypto-name { font-size: 13px; font-weight: 600; color: var(--white); }
+
+    /* ---- CHATBOT ---- */
+    .chat-toggle {
+      position: fixed; bottom: 28px; right: 28px; z-index: 900;
+      width: 62px; height: 62px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; color: #000;
+      box-shadow: 0 8px 30px rgba(200,200,200,0.5);
+      transition: all 0.3s;
+    }
+    .chat-toggle:hover { transform: scale(1.1); }
+    .chat-notification {
+      position: absolute; top: -4px; right: -4px;
+      width: 18px; height: 18px;
+      background: #ff4444; border-radius: 50%;
+      border: 2px solid var(--bg);
+      font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; color: white;
+    }
+    .chat-window {
+      position: fixed; bottom: 104px; right: 28px; z-index: 900;
+      width: 370px; max-height: 560px;
+      background: #0e0e0e;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      display: none; flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+    .chat-window.open { display: flex; }
+    .chat-header {
+      background: linear-gradient(135deg, #161616, #1a1a2e);
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .chat-avatar {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 20px; color: #000;
+      font-weight: 800;
+    }
+    .chat-name { font-weight: 700; color: var(--white); font-size: 15px; }
+    .chat-status { font-size: 12px; color: #44dd88; }
+    .chat-status::before {
+      content: '●'; margin-right: 4px; font-size: 8px;
+    }
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 20px;
+      display: flex; flex-direction: column; gap: 12px;
+      max-height: 340px;
+    }
+    .msg { max-width: 80%; }
+    .msg.bot { align-self: flex-start; }
+    .msg.user { align-self: flex-end; }
+    .msg-bubble {
+      padding: 12px 16px; border-radius: 16px;
+      font-size: 14px; line-height: 1.5;
+    }
+    .msg.bot .msg-bubble {
+      background: #1e1e1e; color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+    .msg.user .msg-bubble {
+      background: var(--gold); color: #000; font-weight: 500;
+      border-bottom-right-radius: 4px;
+    }
+    .msg-time { font-size: 11px; color: var(--muted); margin-top: 4px; padding: 0 4px; }
+    .msg.user .msg-time { text-align: right; }
+    .chat-input-area {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 10px;
+    }
+    .chat-input {
+      flex: 1; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px; padding: 12px 18px;
+      color: var(--white); font-size: 14px; outline: none;
+    }
+    .chat-input:focus { border-color: var(--gold); }
+    .chat-send {
+      width: 44px; height: 44px;
+      background: var(--gold); border: none;
+      border-radius: 50%; color: #000; font-size: 16px;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-send:hover { background: var(--gold-light); }
+    .quick-replies {
+      display: flex; gap: 8px; flex-wrap: wrap; padding: 0 20px 12px;
+    }
+    .quick-reply {
+      background: rgba(200,200,200,0.1);
+      border: 1px solid var(--border);
+      border-radius: 50px; padding: 6px 14px;
+      font-size: 12px; color: var(--gold);
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .quick-reply:hover { background: rgba(200,200,200,0.2); }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: #050505;
+      border-top: 1px solid var(--border);
+      padding: 60px 24px 32px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; max-width: 1200px; margin: 0 auto 48px;
+    }
+    .footer-brand p { color: var(--muted); font-size: 14px; line-height: 1.8; margin-top: 16px; }
+    .footer-social { display: flex; gap: 12px; margin-top: 24px; }
+    .social-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; color: var(--muted); font-size: 16px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .social-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col ul a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-bottom p { font-size: 13px; color: var(--muted); }
+
+    /* ---- CONFIRMATION MODAL ---- */
+    .modal-overlay {
+      display: none; position: fixed;
+      inset: 0; z-index: 2000;
+      background: rgba(0,0,0,0.85);
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px; padding: 48px 40px;
+      max-width: 480px; width: 90%; text-align: center;
+      animation: modalIn 0.4s ease;
+    }
+    @keyframes modalIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-icon { font-size: 64px; margin-bottom: 20px; }
+    .modal h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--white); margin-bottom: 12px; }
+    .modal p { color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+    .modal-details {
+      background: rgba(200,200,200,0.08);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; margin-bottom: 28px;
+      text-align: left;
+    }
+    .modal-details p { color: var(--text); margin-bottom: 6px; font-size: 14px; }
+    .modal-details span { color: var(--gold); font-weight: 600; }
+    .staff-notification {
+      background: rgba(68,221,136,0.08);
+      border: 1px solid rgba(68,221,136,0.2);
+      border-radius: 12px; padding: 16px 20px;
+      margin-bottom: 24px; text-align: left;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .staff-notification i { color: #44dd88; font-size: 20px; }
+    .staff-notification p { color: #44dd88; font-size: 13px; margin: 0; }
+
+    /* ---- WHATSAPP ---- */
+    .whatsapp-btn {
+      position: fixed; bottom: 28px; left: 28px; z-index: 900;
+      background: #25D366; color: white;
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+      transition: all 0.3s;
+    }
+    .whatsapp-btn:hover { transform: scale(1.1); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      nav.scrolled { padding: 12px 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .fleet-grid { grid-template-columns: 1fr; }
+      .booking-wrapper { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .chat-window { width: calc(100vw - 32px); right: 16px; bottom: 96px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 70px 20px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Prem<span>Rides</span></a>
+  <ul class="nav-links">
+    <li><a href="#fleet">Fleet</a></li>
+    <li><a href="#features">Services</a></li>
+    <li><a href="#modifications">Builds</a></li>
+    <li><a href="#insurance">Insurance</a></li>
+    <li><a href="#booking">Book Now</a></li>
+    <li><a href="#payment">Payment</a></li>
+    <li><a href="#booking" class="nav-cta">Reserve</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="close-btn" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></span>
+  <a href="#fleet" onclick="toggleMobileMenu()">Fleet</a>
+  <a href="#features" onclick="toggleMobileMenu()">Services</a>
+  <a href="#modifications" onclick="toggleMobileMenu()">Builds</a>
+  <a href="#insurance" onclick="toggleMobileMenu()">Insurance</a>
+  <a href="#booking" onclick="toggleMobileMenu()">Book Now</a>
+  <a href="#payment" onclick="toggleMobileMenu()">Payment</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-glow"></div>
+  <div>
+    <div class="hero-badge">
+      <i class="fas fa-star"></i> Premium Scooter Rental · Canggu, Bali
+    </div>
+    <h1 class="hero-title">
+      <span class="rotating-tagline">
+        <span class="tagline active">The Ride You <span class="highlight">Deserve.</span></span>
+        <span class="tagline">Built Different. <span class="highlight">Rides Different.</span></span>
+        <span class="tagline">The Premium Way <span class="highlight">To Move.</span></span>
+      </span>
+    </h1>
+    <style>
+      .rotating-tagline { display: block; position: relative; min-height: 1.2em; }
+      .rotating-tagline .tagline { display: block; opacity: 0; position: absolute; top: 0; left: 0; right: 0; transition: opacity 0.8s ease; }
+      .rotating-tagline .tagline.active { opacity: 1; position: relative; }
+    </style>
+    <script>
+      (function() {
+        var taglines = document.querySelectorAll('.rotating-tagline .tagline');
+        var current = 0;
+        setInterval(function() {
+          taglines[current].classList.remove('active');
+          current = (current + 1) % taglines.length;
+          taglines[current].classList.add('active');
+        }, 3000);
+      })();
+    </script>
+    <p class="hero-subtitle">
+      Premium Yamaha X-Max 250, wrapped in unique custom foils. Helmet, rain cover & free delivery anywhere in Canggu — included.
+    </p>
+
+    <!-- HERO SCOOTER SHOWCASE -->
+    <div style="margin:40px auto 0;max-width:500px;position:relative;">
+      <div style="background:linear-gradient(160deg,#0d0d0d 0%,#1a1015 60%,#0d0d0d 100%);border-radius:24px;padding:24px;border:1px solid var(--border);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:16px;left:16px;background:#c0392b;color:#fff;padding:6px 14px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:1px;z-index:2;display:flex;align-items:center;gap:6px;">
+          <span style="width:8px;height:8px;background:#ff6b6b;border-radius:50%;animation:pulse-dot 1.5s infinite;"></span>
+          ONLY 1 LEFT
+        </div>
+        <div style="position:absolute;top:16px;right:16px;background:var(--gold);color:#000;padding:6px 14px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:1px;z-index:2;">PREMIUM</div>
+        <img src="https://cdn-fastly.motorcycle.com/media/2025/01/17/14434/s-post.jpg?size=720x845&nocrop=1"
+          alt="Yamaha X-Max 250 Silver — PremRides"
+          style="width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.7));"/>
+        <div style="text-align:center;margin-top:12px;">
+          <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--white);font-weight:700;">X-Max 250 <span style="color:var(--gold);">Silver</span></div>
+          <div style="color:var(--muted);font-size:14px;margin-top:4px;">Available from Sunday, April 20</div>
+          <div style="color:var(--gold);font-size:20px;font-weight:800;margin-top:8px;">from Rp 214K <span style="font-size:14px;font-weight:400;color:var(--muted);">/ day</span></div>
+        </div>
+      </div>
+    </div>
+    <style>
+      @keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+    .sold-out-overlay {
+      position:absolute;top:0;left:0;right:0;bottom:0;z-index:4;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(0,0,0,0.5);border-radius:20px;
+    }
+    .sold-out-overlay span {
+      font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+      color:#fff;letter-spacing:4px;text-transform:uppercase;
+      border:2px solid rgba(255,255,255,0.3);padding:12px 28px;border-radius:8px;
+      transform:rotate(-8deg);
+    }
+    </style>
+
+    <div class="hero-buttons" style="margin-top:32px;">
+      <a href="#booking" class="btn-primary"><i class="fas fa-calendar-check"></i> Book Now — Limited Availability</a>
+      <a href="#fleet" class="btn-secondary"><i class="fas fa-motorcycle"></i> View Fleet</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">1</div><div class="stat-label">Scooter Left</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free Delivery</div></div>
+      <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
+      <div class="stat"><div class="stat-num">★ 5.0</div><div class="stat-label">Rated</div></div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <span class="section-label">Why Choose Us</span>
+    <h2 class="section-title">Everything You Need,<br/>Zero Hassle</h2>
+    <div class="divider"></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-hard-hat"></i></div>
+        <div class="feature-title">Premium Helmet</div>
+        <div class="feature-desc">Full-face certified helmets included with every rental. Your safety is our priority.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-cloud-rain"></i></div>
+        <div class="feature-title">Rain Protection</div>
+        <div class="feature-desc">High-quality rain ponchos included so Bali's tropical weather never slows you down.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-truck"></i></div>
+        <div class="feature-title">Free Delivery</div>
+        <div class="feature-desc">We deliver directly to you — anywhere in Canggu. No extra charge, ever.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-palette"></i></div>
+        <div class="feature-title">Unique Custom Wraps</div>
+        <div class="feature-desc">Each scooter is professionally foiled in exclusive colors. Stand out from the crowd.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+        <div class="feature-title">Fully Insured</div>
+        <div class="feature-desc">All our scooters are fully insured. Ride confidently knowing you're covered.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-wrench"></i></div>
+        <div class="feature-title">Roadside Assistance</div>
+        <div class="feature-desc">Break down? We come to you. 24/7 support included with every booking.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section id="fleet">
+  <div class="container">
+    <span class="section-label">Our Fleet</span>
+    <h2 class="section-title">Premium Yamaha Scooters</h2>
+    <div class="divider"></div>
+    <p class="section-sub">Two of Yamaha's finest — chosen for comfort, safety and style. Both wrapped in bespoke custom foils.</p>
+    <div class="fleet-grid">
+
+      <!-- N-MAX — FULLY BOOKED -->
+      <div class="fleet-card" style="opacity:0.5;pointer-events:none;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:10;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);border-radius:24px;">
+          <div style="text-align:center;">
+            <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:24px 40px;backdrop-filter:blur(8px);">
+              <i class="fas fa-lock" style="font-size:28px;color:var(--muted);margin-bottom:8px;display:block;"></i>
+              <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--white);font-weight:700;">Fully Booked</div>
+              <div style="color:var(--muted);font-size:13px;margin-top:4px;">Currently rented out</div>
+            </div>
+          </div>
+        </div>
+        <div class="fleet-image nmax" id="nmax-img-container">
+          <img id="nmax-main-img"
+            src="https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/2024081909244137319O98091.png"
+            alt="Yamaha N-Max Modified — PremRides Canggu"/>
+          <div class="fleet-image-gradient"></div>
+          <div class="fleet-badge" style="background:#555;color:#ccc;">RENTED</div>
+        </div>
+        <div class="fleet-info">
+          <div class="fleet-model">Yamaha</div>
+          <div class="fleet-name">N-Max 155</div>
+          <p class="fleet-desc">The ultimate urban commuter. Smooth 155cc engine, smart key, ABS braking and exceptional fuel efficiency make this the perfect Canggu companion.</p>
+          <div class="fleet-specs">
+            <div class="spec"><i class="fas fa-tachometer-alt"></i> 155cc Engine</div>
+            <div class="spec"><i class="fas fa-lock"></i> Smart Key</div>
+            <div class="spec"><i class="fas fa-circle-notch"></i> ABS Brakes</div>
+            <div class="spec"><i class="fas fa-suitcase-rolling"></i> Under-seat storage</div>
+          </div>
+          <div class="fleet-price">
+            <span class="price-amount">Rp 117K</span>
+            <span class="price-per">/ day</span>
+          </div>
+          <div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:4px;">Rp 3.500.000 / month</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-wrench" style="color:var(--gold);"></i>
+            Custom modified · not a standard N-Max
+          </div>
+          <div style="width:100%;text-align:center;padding:16px;background:rgba(255,255,255,0.05);border-radius:50px;color:var(--muted);font-weight:600;font-size:14px;">
+            <i class="fas fa-ban" style="margin-right:6px;"></i> Currently Unavailable
+          </div>
+        </div>
+      </div>
+
+      <!-- X-MAX — AVAILABLE -->
+      <div class="fleet-card" style="border-color:var(--gold);box-shadow:0 0 40px rgba(200,200,200,0.15);">
+        <div class="fleet-image xmax" id="xmax-img-container">
+          <img id="xmax-main-img"
+            src="https://cdn-fastly.motorcycle.com/media/2025/01/17/14434/s-post.jpg?size=720x845&nocrop=1"
+            alt="Yamaha X-Max 250 Silver — PremRides Canggu"/>
+          <div class="fleet-image-gradient"></div>
+          <div style="position:absolute;top:20px;left:20px;background:#c0392b;color:#fff;padding:6px 14px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:1px;z-index:2;display:flex;align-items:center;gap:6px;">
+            <span style="width:8px;height:8px;background:#ff6b6b;border-radius:50%;animation:pulse-dot 1.5s infinite;"></span>
+            1 AVAILABLE
+          </div>
+          <div class="fleet-badge" style="background:var(--gold);color:#000;">PREMIUM</div>
+        </div>
+        <div class="fleet-info">
+          <div class="fleet-model">Yamaha</div>
+          <div class="fleet-name">X-Max 250</div>
+          <p class="fleet-desc">Long-distance luxury. The X-Max 250 delivers superior power, maxi-scooter comfort and head-turning presence. Perfect for exploring beyond Canggu.</p>
+          <div class="fleet-specs">
+            <div class="spec"><i class="fas fa-tachometer-alt"></i> 250cc Engine</div>
+            <div class="spec"><i class="fas fa-wifi"></i> TFT Display</div>
+            <div class="spec"><i class="fas fa-circle-notch"></i> Dual ABS</div>
+            <div class="spec"><i class="fas fa-wind"></i> Maxi Windshield</div>
+          </div>
+          <div class="build-variants">
+            <div class="build-variants-label">Choose build</div>
+            <div class="build-tabs">
+              <div class="build-tab active" onclick="switchXmaxBuild(this,'2025092412234469028U9058','Tech MAX')">Tech MAX</div>
+              <div class="build-tab" onclick="switchXmaxBuild(this,'202601211337387306A11348','Special Livery')">Special Livery</div>
+              <div class="build-tab" onclick="switchXmaxBuild(this,'2026011410361864796E17453','Connected v1')">Connected I</div>
+              <div class="build-tab" onclick="switchXmaxBuild(this,'2026011410411324315K95315','Connected v2')">Connected II</div>
+            </div>
+          </div>
+          <div class="foil-colors">
+            <span class="foil-label">Foil colors:</span>
+            <div class="color-dot" style="background:#0d0d0d;border-color:#555;" title="Matte Black"></div>
+            <div class="color-dot" style="background:#C9A84C;" title="Gold"></div>
+            <div class="color-dot" style="background:#006064;" title="Teal"></div>
+            <div class="color-dot" style="background:#880e4f;" title="Rose"></div>
+            <div class="color-dot" style="background:#e65100;" title="Sunset Orange"></div>
+          </div>
+          <div class="fleet-price">
+            <span class="price-amount">Rp 214K</span>
+            <span class="price-per">/ day</span>
+          </div>
+          <div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:4px;">Rp 6.500.000 – 8.000.000 / month</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-wrench" style="color:var(--gold);"></i>
+            Custom modified · not a standard X-Max
+          </div>
+          <div style="font-size:13px;color:#44dd88;font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-calendar-check" style="color:#44dd88;"></i>
+            Available from Sunday, April 20
+          </div>
+          <a href="#booking" class="btn-primary" style="width:100%; justify-content:center;">
+            <i class="fas fa-calendar-check"></i> Book X-Max Now
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MODIFICATIONS SHOWCASE -->
+<section id="modifications">
+  <div class="container">
+    <span class="section-label">Build Concepts</span>
+    <h2 class="section-title">Modification Packages</h2>
+    <div class="divider"></div>
+    <p class="section-sub">Every PremRides scooter is individually built. Choose a concept below as your starting point — we customise the rest together.</p>
+
+    <!-- N-MAX BUILDS — ALL SOLD OUT -->
+    <div style="margin-bottom:56px;">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+        <div style="font-size:13px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;">N-Max 155 — Build Concepts</div>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <div style="font-size:12px;font-weight:700;color:#c0392b;letter-spacing:1px;text-transform:uppercase;">All Rented</div>
+      </div>
+      <div class="mods-showcase-grid">
+
+        <div class="mod-pkg-card" style="opacity:0.4;pointer-events:none;position:relative;">
+          <div class="sold-out-overlay"><span>FULLY BOOKED</span></div>
+          <div class="mod-pkg-visual" style="background:linear-gradient(145deg,#0d1117,#1a1f35);">
+            <img src="https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/2024081909244137319O98091.png" alt="N-Max Midnight Edition"/>
+            <div class="mod-pkg-overlay" style="background:linear-gradient(transparent,#121212);"></div>
+          </div>
+          <div class="mod-pkg-body">
+            <div class="mod-pkg-series" style="color:#6495ed;">N-Max Build 01</div>
+            <div class="mod-pkg-name">Midnight Edition</div>
+            <div class="mod-pkg-desc">Deep matte black foil with gold accent lines. Understated luxury for the urban rider.</div>
+            <div class="mod-pkg-price">
+              <span class="mod-pkg-amount" style="text-decoration:line-through;">Rp 3.500.000</span>
+              <span class="mod-pkg-per">/ month</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-pkg-card" style="opacity:0.4;pointer-events:none;position:relative;">
+          <div class="sold-out-overlay"><span>FULLY BOOKED</span></div>
+          <div class="mod-pkg-visual" style="background:linear-gradient(145deg,#0a1628,#1a3a5e);">
+            <img src="https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/2026011411065945811R98632.png" alt="N-Max Tech MAX"/>
+            <div class="mod-pkg-overlay" style="background:linear-gradient(transparent,#121212);"></div>
+          </div>
+          <div class="mod-pkg-body">
+            <div class="mod-pkg-series" style="color:var(--gold);">N-Max Build 02</div>
+            <div class="mod-pkg-name">Ocean Drift</div>
+            <div class="mod-pkg-desc">Electric blue-to-teal gradient foil inspired by Bali's ocean. The most eye-catching build in Canggu.</div>
+            <div class="mod-pkg-price">
+              <span class="mod-pkg-amount" style="text-decoration:line-through;">Rp 3.500.000</span>
+              <span class="mod-pkg-per">/ month</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-pkg-card" style="opacity:0.4;pointer-events:none;position:relative;">
+          <div class="sold-out-overlay"><span>FULLY BOOKED</span></div>
+          <div class="mod-pkg-visual" style="background:linear-gradient(145deg,#1a1208,#2e200a);">
+            <img src="https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/2026012114594317543J23731.png" alt="N-Max Gold Rush"/>
+            <div class="mod-pkg-overlay" style="background:linear-gradient(transparent,#121212);"></div>
+          </div>
+          <div class="mod-pkg-body">
+            <div class="mod-pkg-series" style="color:#e8c97a;">N-Max Build 03</div>
+            <div class="mod-pkg-name">Gold Rush</div>
+            <div class="mod-pkg-desc">Full gloss gold foil — bold, striking and unmistakable. The showstopper of the fleet.</div>
+            <div class="mod-pkg-price">
+              <span class="mod-pkg-amount" style="text-decoration:line-through;">Rp 3.500.000</span>
+              <span class="mod-pkg-per">/ month</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- X-MAX BUILDS — SOLD OUT EXCEPT SILVER -->
+    <div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+        <div style="font-size:13px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;">X-Max 250 — Build Concepts</div>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <div style="font-size:12px;font-weight:700;color:#c0392b;letter-spacing:1px;text-transform:uppercase;">2 of 3 Rented</div>
+      </div>
+      <div class="mods-showcase-grid">
+
+        <div class="mod-pkg-card featured" style="border-color:var(--gold);box-shadow:0 0 30px rgba(200,200,200,0.15);position:relative;">
+          <div style="position:absolute;top:12px;right:12px;background:#44dd88;color:#000;padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:1px;z-index:5;">AVAILABLE</div>
+          <div class="mod-pkg-visual" style="background:linear-gradient(145deg,#080808,#1a1a1a);">
+            <img src="https://cdn-fastly.motorcycle.com/media/2025/01/17/14442/s-post.jpg?size=720x845&nocrop=1" alt="X-Max Silver Edition"/>
+            <div class="mod-pkg-overlay" style="background:linear-gradient(transparent,#121212);"></div>
+          </div>
+          <div class="mod-pkg-body">
+            <div class="mod-pkg-series" style="color:#c0c0c0;">X-Max Build 01</div>
+            <div class="mod-pkg-name">Silver Edition</div>
+            <div class="mod-pkg-desc">Sleek silver finish with premium details. Clean, modern and head-turning.</div>
+            <div class="mod-pkg-items">
+              <div class="mod-pkg-item"><i class="fas fa-check"></i>Silver custom foil wrap</div>
+              <div class="mod-pkg-item"><i class="fas fa-check"></i>Performance brakes</div>
+              <div class="mod-pkg-item"><i class="fas fa-check"></i>Full LED package + USB charger</div>
+              <div class="mod-pkg-item"><i class="fas fa-check"></i>Top box 45L + rear rack</div>
+            </div>
+            <div class="mod-pkg-price">
+              <span class="mod-pkg-amount">from Rp 6.500.000</span>
+              <span class="mod-pkg-per">/ month</span>
+            </div>
+            <a href="#booking" style="display:block;text-align:center;background:var(--gold);color:#000;padding:12px;border-radius:50px;font-weight:700;font-size:14px;text-decoration:none;margin-top:16px;">Book This Build</a>
+          </div>
+        </div>
+
+        <div class="mod-pkg-card" style="opacity:0.4;pointer-events:none;position:relative;">
+          <div class="sold-out-overlay"><span>FULLY BOOKED</span></div>
+          <div class="mod-pkg-visual" style="background:linear-gradient(145deg,#0a1a0f,#0d2b18);">
+            <img src="https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/202601211337387306A11348.png" alt="X-Max Island Edition"/>
+            <div class="mod-pkg-overlay" style="background:linear-gradient(transparent,#121212);"></div>
+          </div>
+          <div class="mod-pkg-body">
+            <div class="mod-pkg-series" style="color:#44dd88;">X-Max Build 02</div>
+            <div class="mod-pkg-name">Island Edition</div>
+            <div class="mod-pkg-desc">Tropical forest green with gold accents. Built for the Bali roads — adventurous and refined.</div>
+            <div class="mod-pkg-price">
+              <span class="mod-pkg-amount" style="text-decoration:line-through;">from Rp 8.000.000</span>
+              <span class="mod-pkg-per">/ month</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-pkg-card" style="opacity:0.4;pointer-events:none;position:relative;">
+          <div class="sold-out-overlay"><span>FULLY BOOKED</span></div>
+          <div class="mod-pkg-visual" style="background:linear-gradient(145deg,#1a0a0a,#2e1010);">
+            <img src="https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/2026011410361864796E17453.png" alt="X-Max Prestige"/>
+            <div class="mod-pkg-overlay" style="background:linear-gradient(transparent,#121212);"></div>
+          </div>
+          <div class="mod-pkg-body">
+            <div class="mod-pkg-series" style="color:#ff7070;">X-Max Build 03</div>
+            <div class="mod-pkg-name">Prestige</div>
+            <div class="mod-pkg-desc">Full configuration — every modification included. The ultimate PremRides experience.</div>
+            <div class="mod-pkg-price">
+              <span class="mod-pkg-amount" style="text-decoration:line-through;">Rp 8.000.000</span>
+              <span class="mod-pkg-per">/ month</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSURANCE -->
+<section id="insurance">
+  <div class="container">
+    <span class="section-label">Protection Plans</span>
+    <h2 class="section-title">Choose Your Coverage</h2>
+    <div class="divider"></div>
+    <div class="insurance-intro">
+      <p class="section-sub">Ride with confidence. Select the protection level that suits you — from basic liability to complete zero-risk coverage. All plans cover both the N-Max and X-Max.</p>
+    </div>
+
+    <div class="insurance-grid">
+
+      <!-- TIER 1: BASIC -->
+      <div class="ins-card" id="ins-0" onclick="selectInsurance(0)">
+        <div class="ins-badge free">Basic</div>
+        <div class="ins-name">No Extra Cover</div>
+        <div class="ins-tagline">Minimum liability only. You're responsible for damage costs above the included limit.</div>
+        <div class="ins-price-row">
+          <span class="ins-price-day free-tag">FREE</span>
+        </div>
+        <div class="ins-price-month">Included with every rental</div>
+        <div class="ins-divider"></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Excess / Deductible</span><span class="ins-detail-val gold">$200 N-Max · $300 X-Max</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Third-party liability</span><span class="ins-detail-val green">Included</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Damage coverage</span><span class="ins-detail-val red">Not included</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Theft protection</span><span class="ins-detail-val red">Not included</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Personal accident</span><span class="ins-detail-val red">Not included</span></div>
+        <div class="ins-features">
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Third-party liability coverage</span></div>
+          <div class="ins-feat"><i class="fas fa-times-circle no"></i><span>Scooter damage coverage</span></div>
+          <div class="ins-feat"><i class="fas fa-times-circle no"></i><span>Theft protection</span></div>
+          <div class="ins-feat"><i class="fas fa-times-circle no"></i><span>Personal accident benefit</span></div>
+          <div class="ins-feat"><i class="fas fa-times-circle no"></i><span>Roadside assistance priority</span></div>
+        </div>
+        <button class="ins-select-btn" onclick="selectInsurance(0)">Select Basic</button>
+      </div>
+
+      <!-- TIER 2: STANDARD -->
+      <div class="ins-card" id="ins-1" onclick="selectInsurance(1)">
+        <div class="ins-badge std">Standard</div>
+        <div class="ins-name">Standard Cover</div>
+        <div class="ins-tagline">Partial damage coverage with a reduced excess. Great for most riders.</div>
+        <div class="ins-price-row">
+          <span class="ins-price-day">$2</span>
+          <span class="ins-per">/ day</span>
+        </div>
+        <div class="ins-price-month">Monthly: <span>$45 / month</span></div>
+        <div class="ins-divider"></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Excess / Deductible</span><span class="ins-detail-val gold">$95</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Damage coverage</span><span class="ins-detail-val green">Up to $1,000</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Third-party liability</span><span class="ins-detail-val green">Included</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Theft protection</span><span class="ins-detail-val red">Not included</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Personal accident</span><span class="ins-detail-val red">Not included</span></div>
+        <div class="ins-features">
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Third-party liability coverage</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Damage coverage up to $800</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Reduced excess of $200</span></div>
+          <div class="ins-feat"><i class="fas fa-times-circle no"></i><span>Theft protection</span></div>
+          <div class="ins-feat"><i class="fas fa-times-circle no"></i><span>Personal accident benefit</span></div>
+        </div>
+        <button class="ins-select-btn" onclick="selectInsurance(1)">Select Standard</button>
+      </div>
+
+      <!-- TIER 3: PREMIUM -->
+      <div class="ins-card popular" id="ins-2" onclick="selectInsurance(2)">
+        <div class="ins-badge prem">Premium</div>
+        <div class="ins-name">Premium Cover</div>
+        <div class="ins-tagline">Full damage + theft protection and personal accident benefit. Ideal for extended stays.</div>
+        <div class="ins-price-row">
+          <span class="ins-price-day">$4</span>
+          <span class="ins-per">/ day</span>
+        </div>
+        <div class="ins-price-month">Monthly: <span>$80 / month</span></div>
+        <div class="ins-divider"></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Excess / Deductible</span><span class="ins-detail-val gold">$50</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Damage coverage</span><span class="ins-detail-val green">Full replacement</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Theft protection</span><span class="ins-detail-val green">Up to $2,500</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Personal accident</span><span class="ins-detail-val green">Up to $5,000</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Roadside priority</span><span class="ins-detail-val green">Included</span></div>
+        <div class="ins-features">
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Third-party liability coverage</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Full damage coverage</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Theft protection up to $2,500</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Personal accident up to $5,000</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Priority roadside assistance</span></div>
+        </div>
+        <button class="ins-select-btn" onclick="selectInsurance(2)">Select Premium</button>
+      </div>
+
+      <!-- TIER 4: ZERO RISK -->
+      <div class="ins-card" id="ins-3" onclick="selectInsurance(3)">
+        <div class="ins-badge zero">Zero Risk</div>
+        <div class="ins-name">Zero Risk</div>
+        <div class="ins-tagline">Absolute peace of mind. Zero excess, full coverage on everything — including lost keys and towing.</div>
+        <div class="ins-price-row">
+          <span class="ins-price-day">$7</span>
+          <span class="ins-per">/ day</span>
+        </div>
+        <div class="ins-price-month">Monthly: <span>$130 / month</span></div>
+        <div class="ins-divider"></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Excess / Deductible</span><span class="ins-detail-val green">$0 — Zero</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Damage coverage</span><span class="ins-detail-val green">Full replacement</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Theft protection</span><span class="ins-detail-val green">Full value</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Personal accident</span><span class="ins-detail-val green">Up to $10,000</span></div>
+        <div class="ins-detail-row"><span class="ins-detail-label">Lost key / Towing</span><span class="ins-detail-val green">Included</span></div>
+        <div class="ins-features">
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Everything in Premium</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Zero excess — pay nothing extra</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Full theft replacement value</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Personal accident up to $10,000</span></div>
+          <div class="ins-feat"><i class="fas fa-check-circle yes"></i><span>Lost key & towing covered</span></div>
+        </div>
+        <button class="ins-select-btn" onclick="selectInsurance(3)">Select Zero Risk</button>
+      </div>
+
+    </div>
+
+    <div class="ins-note">
+      <i class="fas fa-info-circle"></i>
+      <p><strong>Please note:</strong> All insurance plans cover both the Yamaha N-Max 155 and X-Max 250. Coverage is valid within Bali only. Prices shown are per scooter per day unless stated as monthly. Your selected plan will be added automatically to your booking total. These are indicative prices — final terms will be confirmed at time of booking. <strong>We recommend at least Standard coverage for all riders.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="container">
+    <span class="section-label">Reservations</span>
+    <h2 class="section-title">Book Your Ride</h2>
+    <div class="divider"></div>
+    <div class="booking-wrapper">
+      <div class="booking-info">
+        <h3>Simple, Fast & Confirmed</h3>
+        <p>Fill in the form and we'll confirm your booking within 15 minutes. Our team will deliver your scooter directly to your location.</p>
+        <div class="booking-steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <h4>Choose Your Scooter</h4>
+              <p>Select N-Max for city cruising or X-Max for longer adventures.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <h4>Pick Your Dates</h4>
+              <p>Flexible durations — daily, weekly or monthly rates available.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <h4>Enter Delivery Address</h4>
+              <p>Anywhere in Canggu. We come to you — villa, hotel, co-work space.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <h4>We Deliver & You Ride</h4>
+              <p>Our team delivers with helmet, rain cover and a full tank of fuel.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-form">
+        <div class="form-title"><i class="fas fa-motorcycle" style="color:var(--gold);margin-right:10px;"></i>Reserve Your Scooter</div>
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="firstName" placeholder="John" required autocomplete="given-name"/>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="lastName" placeholder="Doe" required autocomplete="family-name"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="john@example.com" required autocomplete="email"/>
+          </div>
+          <div class="form-group">
+            <label>Phone / WhatsApp</label>
+            <input type="tel" id="phone" placeholder="+1 234 567 890" required autocomplete="tel"/>
+          </div>
+          <div class="form-group">
+            <label>Scooter Model</label>
+            <select id="model" required>
+              <option value="">Select a model...</option>
+              <option value="nmax" disabled style="color:#555;">Yamaha N-Max 155 — FULLY BOOKED</option>
+              <option value="xmax" selected>Yamaha X-Max 250 (Silver) — from Rp 214.000/day · Rp 6.500.000/month</option>
+            </select>
+          </div>
+          <!-- MODIFICATIONS CONFIGURATOR -->
+          <div class="config-section" id="configSection">
+            <div class="config-label-row">
+              <span><i class="fas fa-wrench" style="color:var(--gold);margin-right:6px;"></i>Customise Your Scooter</span>
+              <small id="configModelTag"></small>
+            </div>
+            <div class="mods-grid" id="modsGrid"></div>
+            <div class="config-total">
+              <span class="config-total-label">Monthly rental incl. selected mods</span>
+              <span class="config-total-price" id="configMonthlyTotal">—</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Pick-up Date</label>
+              <input type="date" id="startDate" required />
+            </div>
+            <div class="form-group">
+              <label>Return Date</label>
+              <input type="date" id="endDate" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Delivery Address in Canggu</label>
+            <input type="text" id="address" placeholder="Villa name, street, area..." required autocomplete="street-address"/>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-shield-alt" style="color:var(--gold);margin-right:6px;"></i>Insurance Plan</label>
+            <select id="insurancePlan" onchange="updatePricePreview()">
+              <option value="0" data-day="0">No Extra Cover — Free (Excess: $200 N-Max / $300 X-Max)</option>
+              <option value="2" data-day="2">Standard Cover — $2/day (Excess: $95, Damage up to $1,000)</option>
+              <option value="4" data-day="4" selected>Premium Cover — $4/day (Full damage + Theft + $5K personal accident)</option>
+              <option value="7" data-day="7">Zero Risk — $7/day (Zero excess, full coverage, lost key & towing)</option>
+            </select>
+            <div id="insHint" style="font-size:12px;color:var(--muted);margin-top:6px;padding:0 4px;">
+              <i class="fas fa-check-circle" style="color:#44dd88;margin-right:4px;"></i>
+              <span id="insHintText">Premium selected — Full damage, theft & $5,000 personal accident</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Special Requests (optional)</label>
+            <textarea id="notes" placeholder="Foil color preference, notes for our team..."></textarea>
+          </div>
+          <div id="pricePreview" style="display:none; background:rgba(200,200,200,0.08); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:var(--muted);font-size:14px;">Estimated Total</span>
+              <span id="priceTotal" style="color:var(--gold);font-size:22px;font-weight:800;"></span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Includes helmet, rain cover & free delivery</div>
+          </div>
+          <button type="submit" class="form-submit">
+            <i class="fas fa-check-circle"></i> Confirm Reservation
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section id="payment">
+  <div class="container">
+    <span class="section-label">Payments</span>
+    <h2 class="section-title">Pay Your Way</h2>
+    <div class="divider"></div>
+    <p class="section-sub">Book your scooter, then pay securely via a personal payment link we send to your WhatsApp.</p>
+
+    <!-- HOW PAYMENT WORKS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:40px;margin-bottom:48px;">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;">
+        <div style="width:48px;height:48px;background:rgba(200,200,200,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px;color:var(--gold);">1</div>
+        <div style="font-weight:700;color:var(--white);margin-bottom:6px;">Book</div>
+        <div style="font-size:13px;color:var(--muted);">Fill in the form above and confirm your reservation</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;">
+        <div style="width:48px;height:48px;background:rgba(200,200,200,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px;color:var(--gold);">2</div>
+        <div style="font-weight:700;color:var(--white);margin-bottom:6px;">Receive Link</div>
+        <div style="font-size:13px;color:var(--muted);">We send a secure payment link to your WhatsApp within minutes</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;">
+        <div style="width:48px;height:48px;background:rgba(200,200,200,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px;color:var(--gold);">3</div>
+        <div style="font-weight:700;color:var(--white);margin-bottom:6px;">Pay & Ride</div>
+        <div style="font-size:13px;color:var(--muted);">Pay with card or crypto — we deliver your scooter same day</div>
+      </div>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">Accepted Payment Methods</div>
+    <div class="payment-grid">
+      <div class="payment-card">
+        <div class="payment-icon"><i class="fab fa-cc-visa" style="font-size:32px;color:var(--gold);"></i></div>
+        <div class="payment-name">Visa</div>
+        <div class="payment-sub">Debit & Credit</div>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="fab fa-cc-mastercard" style="font-size:32px;color:var(--gold);"></i></div>
+        <div class="payment-name">Mastercard</div>
+        <div class="payment-sub">Debit & Credit</div>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="fab fa-cc-amex" style="font-size:32px;color:var(--gold);"></i></div>
+        <div class="payment-name">Amex</div>
+        <div class="payment-sub">All cards</div>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="fab fa-cc-apple-pay" style="font-size:32px;color:var(--gold);"></i></div>
+        <div class="payment-name">Apple Pay</div>
+        <div class="payment-sub">Instant</div>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="fab fa-google-pay" style="font-size:32px;color:var(--gold);"></i></div>
+        <div class="payment-name">Google Pay</div>
+        <div class="payment-sub">Instant</div>
+      </div>
+      <div class="payment-card">
+        <div class="payment-icon"><i class="fab fa-bitcoin" style="font-size:32px;color:var(--gold);"></i></div>
+        <div class="payment-name">Crypto</div>
+        <div class="payment-sub">BTC · ETH · USDT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="font-size:26px;">Prem<span>Rides</span></a>
+      <p>Premium scooter rentals in the heart of Canggu, Bali. Custom-modified Yamaha scooters wrapped in unique foils. Helmet, rain cover & free delivery always included.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Fleet</h4>
+      <ul>
+        <li><a href="#fleet">Yamaha N-Max 155</a></li>
+        <li><a href="#fleet">Yamaha X-Max 250</a></li>
+        <li><a href="#fleet">Custom Foil Colors</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Safety</a></li>
+        <li><a href="#">Reviews</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">WhatsApp Us</a></li>
+        <li><a href="#">Email</a></li>
+        <li><a href="#booking">Book Now</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 PremRides. All rights reserved.</p>
+    <p style="color:var(--muted);">Canggu, Bali, Indonesia</p>
+  </div>
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/46736322333" class="whatsapp-btn" target="_blank">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- CHATBOT TOGGLE -->
+<button class="chat-toggle" onclick="toggleChat()" id="chatToggle">
+  <i class="fas fa-comment-dots" id="chatIcon"></i>
+  <div class="chat-notification" id="chatNotif">1</div>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">E</div>
+    <div>
+      <div class="chat-name">Evelina</div>
+      <div class="chat-status">Online now</div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg bot">
+      <div class="msg-bubble">Hi! 👋 I'm Evelina, your personal assistant at PremRides. How can I help you today?</div>
+      <div class="msg-time">Just now</div>
+    </div>
+  </div>
+  <div class="quick-replies" id="quickReplies">
+    <button class="quick-reply" onclick="sendQuick('What scooters do you have?')">Our scooters</button>
+    <button class="quick-reply" onclick="sendQuick('How much does it cost?')">Pricing</button>
+    <button class="quick-reply" onclick="sendQuick('Do you deliver to my area?')">Delivery</button>
+    <button class="quick-reply" onclick="sendQuick('What payment methods do you accept?')">Payment</button>
+    <button class="quick-reply" onclick="sendQuick('Tell me about insurance options')">Insurance</button>
+  </div>
+  <div class="chat-input-area">
+    <input class="chat-input" id="chatInput" placeholder="Type a message..." onkeypress="chatKeyPress(event)"/>
+    <button class="chat-send" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<!-- BOOKING CONFIRMATION MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h2>Booking Confirmed!</h2>
+    <p>Your scooter is reserved. We'll send a <strong>secure payment link</strong> to your WhatsApp within minutes.</p>
+    <div class="modal-details" id="modalDetails"></div>
+    <div class="staff-notification">
+      <i class="fas fa-bell"></i>
+      <p><strong>What happens next:</strong> You'll receive a payment link on WhatsApp. Once paid, our team prepares and delivers your scooter to your address.</p>
+    </div>
+    <button class="btn-primary" onclick="closeModal()" style="width:100%;justify-content:center;">
+      <i class="fas fa-check"></i> Perfect, thanks!
+    </button>
+  </div>
+</div>
+
+<script>
+  // ---- BUILD SWITCHER ----
+  const BASE = 'https://www.yamaha-motor.co.id/uploads/products/new_product_model_image/';
+  function switchNmaxBuild(el, imgId, name) {
+    document.getElementById('nmax-main-img').src = BASE + imgId + '.png';
+    document.querySelectorAll('#nmax-img-container ~ * .build-tab, .fleet-card:first-of-type .build-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+  function switchXmaxBuild(el, imgId, name) {
+    document.getElementById('xmax-main-img').src = BASE + imgId + '.png';
+    el.closest('.build-tabs').querySelectorAll('.build-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // ---- NAV SCROLL ----
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ---- MOBILE MENU ----
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // ---- MODIFICATIONS CONFIGURATOR ----
+  const modifications = {
+    nmax: [
+      { id:'nmax_box',    name:'Top Box',            desc:'35L lockable storage box',          price:0,      icon:'fa-box' },
+      { id:'nmax_cup',    name:'Cup Holder',          desc:'Stainless steel cup holder',        price:0,      icon:'fa-coffee' },
+      { id:'nmax_grips',  name:'Custom Grips',        desc:'Ergonomic comfort handlebar grips', price:0,      icon:'fa-circle' },
+      { id:'nmax_lights', name:'LED Lighting',        desc:'Upgraded front & rear LED lights',  price:0,      icon:'fa-lightbulb' },
+    ],
+    xmax: [
+      { id:'box',    name:'Top Box',              desc:'45L lockable premium storage box',        price:200000, icon:'fa-box' },
+      { id:'brakes', name:'Performance Brakes',   desc:'Upgraded brake pads & discs',            price:300000, icon:'fa-compact-disc' },
+      { id:'cup',    name:'Cup Holder',            desc:'Stainless steel cup holder',             price:75000,  icon:'fa-coffee' },
+      { id:'grips',  name:'Custom Grips',          desc:'Ergonomic comfort handlebar grips',      price:150000, icon:'fa-circle' },
+      { id:'lights', name:'LED Lighting Package',  desc:'Full LED upgrade front, rear & accent',  price:250000, icon:'fa-lightbulb' },
+      { id:'usb',    name:'USB Charger Port',      desc:'Dual USB-A + USB-C fast charge',         price:75000,  icon:'fa-plug' },
+      { id:'wind',   name:'Windshield Upgrade',    desc:'Taller touring windshield',              price:200000, icon:'fa-wind' },
+      { id:'mount',  name:'Magnetic Phone Mount',  desc:'360° magnetic mount with charger',       price:100000, icon:'fa-mobile-alt' },
+      { id:'rack',   name:'Rear Rack',             desc:'Heavy-duty rear luggage rack',            price:150000, icon:'fa-layer-group' },
+    ]
+  };
+
+  const baseMonthly = { nmax: 3500000, xmax: 6500000 };
+  let selectedMods = new Set();
+
+  function renderMods(model) {
+    const grid = document.getElementById('modsGrid');
+    const section = document.getElementById('configSection');
+    const tag = document.getElementById('configModelTag');
+    selectedMods.clear();
+    grid.innerHTML = '';
+    if (!model) { section.classList.remove('visible'); return; }
+    section.classList.add('visible');
+    tag.textContent = model === 'nmax' ? 'N-Max 155 · Fixed Rp 3.500.000/month' : 'X-Max 250 · Base Rp 6.500.000 + mods';
+    const mods = modifications[model];
+    mods.forEach(mod => {
+      const div = document.createElement('div');
+      div.className = 'mod-item';
+      div.id = 'mod_' + mod.id;
+      const priceLabel = mod.price === 0
+        ? '<span class="mod-price">Included</span>'
+        : `<span class="mod-price">+Rp ${mod.price.toLocaleString('id-ID')}/month</span>`;
+      div.innerHTML = `
+        <div class="mod-checkbox"><i class="fas fa-check"></i></div>
+        <div class="mod-info">
+          <div class="mod-name"><i class="fas ${mod.icon}" style="color:var(--gold);margin-right:5px;font-size:11px;"></i>${mod.name}</div>
+          <div class="mod-desc">${mod.desc}</div>
+          ${priceLabel}
+        </div>`;
+      div.addEventListener('click', () => toggleMod(mod, div, model));
+      // N-Max mods are all included — pre-check them
+      if (model === 'nmax') {
+        div.classList.add('checked');
+        selectedMods.add(mod.id);
+      }
+      grid.appendChild(div);
+    });
+    updateConfigTotal(model);
+  }
+
+  function toggleMod(mod, el, model) {
+    if (model === 'nmax') return; // N-Max mods are fixed/included
+    if (selectedMods.has(mod.id)) {
+      selectedMods.delete(mod.id);
+      el.classList.remove('checked');
+    } else {
+      selectedMods.add(mod.id);
+      el.classList.add('checked');
+    }
+    updateConfigTotal(model);
+    updatePricePreview();
+  }
+
+  function updateConfigTotal(model) {
+    const mods = modifications[model];
+    const addons = mods.filter(m => selectedMods.has(m.id)).reduce((s, m) => s + m.price, 0);
+    const total = baseMonthly[model] + addons;
+    document.getElementById('configMonthlyTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
+  }
+
+  function getModsDailyRate(model) {
+    if (!model) return 0;
+    const mods = modifications[model] || [];
+    const addons = mods.filter(m => selectedMods.has(m.id)).reduce((s, m) => s + m.price, 0);
+    return Math.round((baseMonthly[model] + addons) / 30);
+  }
+
+  document.getElementById('model').addEventListener('change', function() {
+    renderMods(this.value);
+    updatePricePreview();
+  });
+  // Auto-load X-Max mods since it's pre-selected
+  renderMods('xmax');
+
+  // ---- INSURANCE ----
+  let selectedInsurance = 4; // default Premium
+  const insNames = ['No Extra Cover', 'Standard Cover', 'Premium Cover', 'Zero Risk'];
+  const insRates = [0, 2, 4, 7];
+  const insHints = [
+    'Basic only — you pay $500 excess if anything happens',
+    'Standard — Damage up to $800, $200 excess',
+    'Premium — Full damage, theft & $5,000 personal accident',
+    'Zero Risk — Zero excess, full coverage on everything'
+  ];
+
+  function selectInsurance(idx) {
+    document.querySelectorAll('.ins-card').forEach((c, i) => {
+      c.classList.toggle('selected', i === idx);
+    });
+    selectedInsurance = insRates[idx];
+    // Sync dropdown in booking form
+    const sel = document.getElementById('insurancePlan');
+    if (sel) {
+      sel.value = String(insRates[idx]);
+      document.getElementById('insHintText').textContent = insHints[idx];
+    }
+    updatePricePreview();
+    // Smooth scroll to booking
+    setTimeout(() => document.getElementById('booking').scrollIntoView({behavior:'smooth'}), 300);
+  }
+
+  // Sync insurance dropdown → card highlight
+  document.getElementById('insurancePlan').addEventListener('change', function() {
+    const val = parseInt(this.value);
+    const idx = insRates.indexOf(val);
+    document.querySelectorAll('.ins-card').forEach((c, i) => c.classList.toggle('selected', i === idx));
+    selectedInsurance = val;
+    document.getElementById('insHintText').textContent = insHints[idx >= 0 ? idx : 0];
+    updatePricePreview();
+  });
+
+  // Default highlight Premium card
+  document.getElementById('ins-2').classList.add('selected');
+
+  // ---- PRICE PREVIEW ----
+  function updatePricePreview() {
+    const model = document.getElementById('model').value;
+    const start = document.getElementById('startDate').value;
+    const end = document.getElementById('endDate').value;
+    if (!model || !start || !end) return;
+    const s = new Date(start), e = new Date(end);
+    const days = Math.ceil((e - s) / 86400000);
+    if (days <= 0) return;
+    const rate = getModsDailyRate(model) || (model === 'nmax' ? 117000 : 214000);
+    // Insurance rates in IDR (approx conversion: $2=$32K, $4=$65K, $7=$113K)
+    const insRateIDR = [0, 32000, 65000, 113000];
+    const insRateDay = insRateIDR[insRates.indexOf(selectedInsurance)] || 0;
+    const scooterTotal = days * rate;
+    const insTotal = days * insRateDay;
+    const grandTotal = scooterTotal + insTotal;
+    const fmtIDR = (n) => 'Rp ' + n.toLocaleString('id-ID');
+    const preview = document.getElementById('pricePreview');
+    preview.innerHTML = `
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="color:var(--muted);font-size:13px;">Scooter (${days} day${days>1?'s':''})</span>
+        <span style="color:var(--text);font-size:13px;">${fmtIDR(scooterTotal)}</span>
+      </div>
+      ${insRateDay > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="color:var(--muted);font-size:13px;">Insurance (${insNames[insRates.indexOf(selectedInsurance)]})</span>
+        <span style="color:var(--text);font-size:13px;">${fmtIDR(insTotal)}</span>
+      </div>` : ''}
+      <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:10px;">
+        <span style="color:var(--muted);font-size:14px;">Total</span>
+        <span id="priceTotal" style="color:var(--gold);font-size:22px;font-weight:800;">${fmtIDR(grandTotal)}</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px;">Includes helmet, rain cover & free delivery</div>
+    `;
+    preview.style.display = 'block';
+  }
+  document.getElementById('model').addEventListener('change', updatePricePreview);
+  document.getElementById('startDate').addEventListener('change', updatePricePreview);
+  document.getElementById('endDate').addEventListener('change', updatePricePreview);
+
+  // Set min date to April 20, 2026 (first available date)
+  const minStartDate = '2026-04-20';
+  const today = new Date().toISOString().split('T')[0];
+  const effectiveMin = minStartDate > today ? minStartDate : today;
+  document.getElementById('startDate').min = effectiveMin;
+  document.getElementById('startDate').value = effectiveMin;
+  document.getElementById('endDate').min = effectiveMin;
+
+  // ---- BOOKING FORM ----
+  function submitBooking(e) {
+    e.preventDefault();
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const model = document.getElementById('model').value;
+    const modelName = model === 'nmax' ? 'Yamaha N-Max 155' : 'Yamaha X-Max 250';
+    const start = document.getElementById('startDate').value;
+    const end = document.getElementById('endDate').value;
+    const address = document.getElementById('address').value;
+    const phone = document.getElementById('phone').value;
+    const days = Math.ceil((new Date(end) - new Date(start)) / 86400000);
+    const rate = getModsDailyRate(model) || (model === 'nmax' ? 117000 : 214000);
+    const insRateIDR2 = [0, 32000, 65000, 113000];
+    const insIdx = insRates.indexOf(selectedInsurance);
+    const insName = insNames[insIdx >= 0 ? insIdx : 0];
+    const insDay = insRateIDR2[insIdx >= 0 ? insIdx : 0] || 0;
+    const total = days * (rate + insDay);
+    const fmtIDR2 = (n) => 'Rp ' + n.toLocaleString('id-ID');
+
+    document.getElementById('modalDetails').innerHTML = `
+      <p><span>Name:</span> ${firstName} ${lastName}</p>
+      <p><span>Scooter:</span> ${modelName}</p>
+      <p><span>Duration:</span> ${start} → ${end} (${days} day${days>1?'s':''})</p>
+      <p><span>Insurance:</span> ${insName}${insDay > 0 ? ` (+${fmtIDR2(insDay)}/day)` : ' (Free)'}</p>
+      <p><span>Delivery to:</span> ${address}</p>
+      <p><span>Contact:</span> ${phone}</p>
+      <p><span>Total:</span> ${fmtIDR2(total)}</p>
+    `;
+
+    document.getElementById('confirmModal').classList.add('open');
+
+    // Send booking details to WhatsApp
+    const selectedModsList = modifications[model]
+      .filter(m => selectedMods.has(m.id))
+      .map(m => m.name)
+      .join(', ') || 'None';
+    const waMsg = encodeURIComponent(
+      `🏍️ *NEW BOOKING — PremRides*\n\n` +
+      `*Name:* ${firstName} ${lastName}\n` +
+      `*Phone:* ${phone}\n` +
+      `*Email:* ${document.getElementById('email').value}\n` +
+      `*Scooter:* ${modelName}\n` +
+      `*Modifications:* ${selectedModsList}\n` +
+      `*Dates:* ${start} → ${end} (${days} days)\n` +
+      `*Insurance:* ${insName}\n` +
+      `*Delivery:* ${address}\n` +
+      `*Notes:* ${document.getElementById('notes').value || 'None'}\n` +
+      `*Total:* ${fmtIDR2(total)}\n\n` +
+      `Please confirm and send payment link.`
+    );
+    window.open('https://wa.me/46736322333?text=' + waMsg, '_blank');
+  }
+
+  function closeModal() {
+    document.getElementById('confirmModal').classList.remove('open');
+    document.getElementById('bookingForm').reset();
+    document.getElementById('pricePreview').style.display = 'none';
+  }
+
+  // ---- CHAT ----
+  const botReplies = {
+    default: "Great question! I'll make sure our team gets back to you right away. You can also book directly on this page or reach us on WhatsApp. 😊",
+    greet: "Hey! Great to hear from you. 😊 How can I help you today?",
+    scooter: "We currently have our **Yamaha X-Max 250 Silver** available! 🏍️\n\nFrom **Rp 214.000/day** (Rp 6.500.000/month). Premium power, maxi-scooter comfort and a stunning silver custom wrap.\n\n⚠️ Our N-Max 155 is currently fully booked. The X-Max is the only one available right now — book before it's gone!",
+    price: "Here's our pricing for the **X-Max 250 Silver** (our only available scooter right now):\n\n• Base: **Rp 214.000/day** · Rp 6.500.000/month\n• Fully loaded: **Rp 273.000/day** · Rp 8.000.000/month\n\nCustomise with modifications like top box, performance brakes, LED lighting and more. All prices include helmet, rain cover & free delivery!",
+    delivery: "Yes! We deliver **anywhere in Canggu** — your villa, hotel, co-working space, beach — completely free of charge. Just enter your address when booking.",
+    payment: "We accept:\n\n💳 Visa, Mastercard, Amex & most cards\n📱 Apple Pay & Google Pay\n₿ Bitcoin, Ethereum, USDT, Solana and more crypto!\n\nAll payments are secure and instant.",
+    insurance: "We offer 4 insurance plans:\n\n🟢 **No Extra Cover** — Free (Excess $200/$300)\n🔵 **Standard** — $2/day (Excess $95, damage up to $1,000)\n⭐ **Premium** — $4/day (Full damage + theft + $5K accident)\n🔴 **Zero Risk** — $7/day (Zero excess, full coverage, lost key, towing)\n\nWe recommend at least Standard for all riders. Select your plan in the Insurance section!"
+  };
+
+  function getReply(msg) {
+    const m = msg.toLowerCase();
+    if (m.match(/hi|hello|hey|hej/)) return botReplies.greet;
+    if (m.match(/scooter|model|nmax|xmax|bike|moto/)) return botReplies.scooter;
+    if (m.match(/price|cost|how much|rate|fee/)) return botReplies.price;
+    if (m.match(/deliver|area|location|where|bring/)) return botReplies.delivery;
+    if (m.match(/pay|payment|card|crypto|visa|bitcoin/)) return botReplies.payment;
+    if (m.match(/insur|cover|protect|excess|deduct|risk|theft|accident/)) return botReplies.insurance;
+    return botReplies.default;
+  }
+
+  function addMessage(text, sender) {
+    const msgs = document.getElementById('chatMessages');
+    const now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    const div = document.createElement('div');
+    div.className = `msg ${sender}`;
+    div.innerHTML = `<div class="msg-bubble">${text.replace(/\n/g,'<br/>')}</div><div class="msg-time">${now}</div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    input.value = '';
+    document.getElementById('quickReplies').style.display = 'none';
+    setTimeout(() => addMessage(getReply(text), 'bot'), 700);
+  }
+
+  function sendQuick(text) {
+    document.getElementById('chatInput').value = text;
+    sendMessage();
+  }
+
+  function chatKeyPress(e) {
+    if (e.key === 'Enter') sendMessage();
+  }
+
+  function toggleChat() {
+    const win = document.getElementById('chatWindow');
+    const icon = document.getElementById('chatIcon');
+    const notif = document.getElementById('chatNotif');
+    win.classList.toggle('open');
+    if (win.classList.contains('open')) {
+      icon.className = 'fas fa-times';
+      notif.style.display = 'none';
+    } else {
+      icon.className = 'fas fa-comment-dots';
+    }
+  }
+
+  // Auto open chat hint after 4s
+  setTimeout(() => {
+    document.getElementById('chatNotif').style.display = 'flex';
+  }, 4000);
+</script>
+</body>
+</html>
